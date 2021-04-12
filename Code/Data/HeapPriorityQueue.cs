@@ -16,6 +16,9 @@ namespace Mox.Data
 				return false;
 			}
 			result = nodes[0].value;
+			nodes[0] = nodes[Count - 1];
+			nodes.RemoveAt(Count - 1);
+			nodes.Heapify(Count, 0);
 			return true;
 		}
 
