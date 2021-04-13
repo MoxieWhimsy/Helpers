@@ -24,7 +24,7 @@ namespace Mox.Data
 
 		public void Enqueue(T item, int priority)
 		{
-			nodes.Add(new HeapNode(item, priority));
+			nodes.Insert(0, new HeapNode(item, priority));
 			nodes.Heapify(Count, 0);
 		}
 
@@ -42,6 +42,10 @@ namespace Mox.Data
 			{
 				get => _priority;
 			}
+
+			public override string ToString() => $"'{value}' p{_priority}";
 		}
+
+		public override string ToString() => string.Join(", ", nodes);
 	}
 }
