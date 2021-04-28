@@ -15,7 +15,7 @@ namespace Mox.Data
 				result = default;
 				return false;
 			}
-			result = nodes[0].value;
+			result = nodes[0].Value;
 			nodes[0] = nodes[Count - 1];
 			nodes.RemoveAt(Count - 1);
 			nodes.Heapify(Count, 0);
@@ -30,20 +30,16 @@ namespace Mox.Data
 
 		class HeapNode : IHasPriority
 		{
-			public T value;
-			readonly int _priority;
+			public readonly T Value;
+			public int Priority { get; }
 
 			public HeapNode(T value, int priority)
 			{
-				this.value = value;
-				_priority = priority;
-			}
-			public int Priority
-			{
-				get => _priority;
+				this.Value = value;
+				Priority = priority;
 			}
 
-			public override string ToString() => $"'{value}' p{_priority}";
+			public override string ToString() => $"'{Value}' p{Priority}";
 		}
 
 		public override string ToString() => string.Join(", ", nodes);
