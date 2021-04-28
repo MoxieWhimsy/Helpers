@@ -4,42 +4,30 @@ namespace Mox
 {
 	public static partial class Extensions
 	{
-		public static void Heapify<T>(this List<T> list, int last, int index) where T : IHasPriority
+		public static void Heapify<T>(this List<T> list, int last, int index, bool max = true) where T : IHasPriority
 		{
-			int largest = index;
-			int left = 2 * index + 1;
-			int right = 2 * index + 2;
-
-			if (left < last && list[index].Priority < list[left].Priority)
-				largest = left;
-			if (right < last && list[largest].Priority < list[right].Priority)
-				largest = right;
-			if (largest != index)
+			while (true)
 			{
+				var most = index;
+				var left = 2 * index + 1;
+				var right = 2 * index + 2;
+
+				if (left < last && Compare(list[index], list[left], max)) most = left;
+				if (right < last && Compare(list[most], list[right], max)) most = right;
+				if (most == index) return;
+
 				var temp = list[index];
-				list[index] = list[largest];
-				list[largest] = temp;
-				list.Heapify(last, largest);
+				list[index] = list[most];
+				list[most] = temp;
+				index = most;
 			}
 		}
-		public static void MinHeapify<T>(this List<T> list, int last, int index) where T : IHasPriority
-		{
-			int smallest = index;
-			int left = 2 * index + 1;
-			int right = 2 * index + 2;
 
-			if (left < last && list[index].Priority > list[left].Priority)
-				smallest = left;
-			if (right < last && list[smallest].Priority > list[right].Priority)
-				smallest = right;
-			if (smallest != index)
-			{
-				var temp = list[index];
-				list[index] = list[smallest];
-				list[smallest] = temp;
-				list.MinHeapify(last, smallest);
-			}
-		}
+		private static bool Compare(IHasPriority one, IHasPriority two, bool max = true) 
+			=> max ? one.Priority < two.Priority : one.Priority > two.Priority;
+
+		public static void MinHeapify<T>(this List<T> list, int last, int index) where T : IHasPriority 
+			=> list.Heapify(last, index, false);
 	}
 
 	public interface IHasPriority
