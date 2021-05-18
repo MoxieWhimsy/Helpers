@@ -13,6 +13,7 @@ namespace Mox
 
 		public static Vector3 ZeroY(this Vector3 v) => new Vector3(v.x, 0f, v.z);
 
+		public static Vector3 ExpandAddZ(this Vector2 vec, float z) => new Vector3(vec.x, vec.y, z);
 		public static Vector3 ExpandYtoZ(this Vector2 vec) => new Vector3(vec.x, 0, vec.y);
 		public static Vector2 CollapseZtoY(this Vector3 vec) => new Vector2(vec.x, vec.z);
 
