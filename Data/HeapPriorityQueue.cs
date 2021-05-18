@@ -3,6 +3,7 @@ using Sirenix.OdinInspector;
 
 namespace Mox.Data
 {
+	[System.Serializable]
 	public class HeapPriorityQueue<T> : IPriorityQueue<T>
 	{
 		readonly List<HeapNode> nodes = new List<HeapNode>();
@@ -20,14 +21,14 @@ namespace Mox.Data
 		public int Count => nodes.Count;
 
 		[Button]
-		public bool Dequeue(out T result)
+		public bool Dequeue(out T item)
 		{
 			if (nodes.Count <= 0)
 			{
-				result = default;
+				item = default;
 				return false;
 			}
-			result = nodes[0].Value;
+			item = nodes[0].Value;
 			nodes[0] = nodes[Count - 1];
 			nodes.RemoveAt(Count - 1);
 			nodes.Heapify(Count, 0, UsesMaxHeap);
@@ -43,7 +44,9 @@ namespace Mox.Data
 
 		class HeapNode : IHasPriority
 		{
+			[LabelWidth(40), HorizontalGroup()] 
 			public readonly T Value;
+			[LabelWidth(50), ShowInInspector, HorizontalGroup()] 
 			public int Priority { get; }
 
 			public HeapNode(T value, int priority)
