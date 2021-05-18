@@ -26,6 +26,7 @@ namespace Mox
 		private static bool Compare(IHasPriority one, IHasPriority two, bool max = true) 
 			=> max ? one.Priority < two.Priority : one.Priority > two.Priority;
 
+		[System.Obsolete]
 		public static void MinHeapify<T>(this List<T> list, int last, int index) where T : IHasPriority 
 			=> list.Heapify(last, index, false);
 	}
