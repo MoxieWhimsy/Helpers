@@ -20,6 +20,14 @@ namespace Mox
 		public static Vector3 RemoveY(this Vector3 vec) => new Vector3(vec.x, 0, vec.z);
 
 		public static int ManhattanNorm(this Vector2Int v) => Mathf.Abs(v.x) + Mathf.Abs(v.y);
+
+		public static int SquareOneDistance(this Vector2Int v)
+		{
+			var xDistance = Mathf.Abs(v.x);
+			var yDistance = Mathf.Abs(v.y);
+			var remaining = Mathf.Abs(xDistance - yDistance);
+			return Mathf.Min(xDistance, yDistance) + remaining;
+		}
 		public static Vector3 MouseToEulerYaw(this Vector2 v) => new Vector3(0f, v.x, 0);
 		public static Vector3 MouseToEulerPitch(this Vector2 v) => new Vector3(v.y, 0, 0);
 
