@@ -36,6 +36,7 @@ namespace Mox
 		public static Vector3 Offset(this Vector3 position, Vector3 direction, float distance = 1f) => position + distance * direction.normalized;
 
 		public static Vector2Int PickRandom(this List<Vector2Int> list) => list[Random.Range(0, list.Count)];
+		public static Vector3 PickRandom(this List<Vector3> list) => list[Random.Range(0, list.Count)];
 		public static Vector3 Widen(this Vector3 v, float amount) => v + Vector3.right * amount;
 
 		public static Vector3 Remap(this Vector3 v, Transform transform) => transform.forward * v.z + transform.up * v.y + transform.right * v.x;
