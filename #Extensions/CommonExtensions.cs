@@ -101,6 +101,14 @@ namespace Mox
 		public static bool HasComponent<T>(this Component component) where T : Component
 			=> component.GetValidGameObject(out GameObject gob) && gob.HasComponent<T>();
 
+		public static Rect GetRectInScreenSpace(this RectTransform transform)
+		{
+			var screenCorners = new Vector3[4];
+			transform.GetWorldCorners(screenCorners);
+			var rect = transform.rect;
+			return new Rect(screenCorners[0].x + rect.x, screenCorners[0].y + rect.y, rect.width, rect.height);
+		}
+		
         public static float AsFloat(this int value) => value;
 
         public static string ShortName(this KeyCode keyCode)
