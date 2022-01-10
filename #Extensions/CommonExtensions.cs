@@ -106,7 +106,8 @@ namespace Mox
 			var screenCorners = new Vector3[4];
 			transform.GetWorldCorners(screenCorners);
 			var rect = transform.rect;
-			return new Rect(screenCorners[0].x + rect.x, screenCorners[0].y + rect.y, rect.width, rect.height);
+			Log.Temp($"top left: {screenCorners[0]} size?: {screenCorners[2] - screenCorners[0]} rect: {rect}");
+			return new Rect(screenCorners[0].x, screenCorners[0].y, rect.width, rect.height);
 		}
 		
         public static float AsFloat(this int value) => value;
