@@ -110,6 +110,15 @@ namespace Mox
 			return new Rect(screenCorners[0].x, screenCorners[0].y, rect.width, rect.height);
 		}
 		
+		public static Rect GetScreenRectInLocalSpace(this Rect screenRect, RectTransform transform, Camera camera)
+		{
+			RectTransformUtility.ScreenPointToLocalPointInRectangle(transform, screenRect.position, camera,
+				out var origin);
+			RectTransformUtility.ScreenPointToLocalPointInRectangle(transform, screenRect.max, camera,
+				out var maxCorner);
+			return new Rect(origin, maxCorner - origin);
+		}
+		
         public static float AsFloat(this int value) => value;
 
         public static string ShortName(this KeyCode keyCode)
