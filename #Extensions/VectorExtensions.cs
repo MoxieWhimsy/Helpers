@@ -30,6 +30,17 @@ namespace Mox
 			var remaining = Mathf.Abs(xDistance - yDistance);
 			return Mathf.Min(xDistance, yDistance) + remaining;
 		}
+
+		public static Vector2Int ToEightDirection(this Vector2Int v)
+		{
+			if (v.x == 0 && v.y == 0)
+				return Vector2Int.zero;
+
+			var x = v.x > 0 ? 1 : v.x < 0 ? -1 : 0;
+			var y = v.y > 0 ? 1 : v.y < 0 ? -1 : 0;
+			
+			return new Vector2Int(x, y);
+		}
 		public static Vector3 MouseToEulerYaw(this Vector2 v) => new Vector3(0f, v.x, 0);
 		public static Vector3 MouseToEulerPitch(this Vector2 v) => new Vector3(v.y, 0, 0);
 
