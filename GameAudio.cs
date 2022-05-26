@@ -8,11 +8,11 @@ namespace Mox
 	public class GameAudio : GameSingleton<GameAudio>, ISerializationCallbackReceiver
 	{
 		[SerializeField] private AudioMixer mixer;
-		[SerializeField, Min(1f)] private float multiplier = 30f;
+		[SerializeField, Min(1f)] private float multiplier = 20f;
 		[SerializeField] private List<string> mixerParameters = new List<string>();
 		private const float DefaultDecibels = -8f;
 		private const float MaximumDecibels = -0.05f;
-		public const float MinimumValue = 0.001f;
+		public const float MinimumValue = 0.0001f;
 
 		private static AudioMixer MainAudioMixer => Instance.mixer;
 		public static System.Action<string> ParameterChanged;
