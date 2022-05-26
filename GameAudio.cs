@@ -10,7 +10,9 @@ namespace Mox
 		[SerializeField] private AudioMixer mixer;
 		[SerializeField, Min(1f)] private float multiplier = 20f;
 		[SerializeField] private List<string> mixerParameters = new List<string>();
-		private const float DefaultDecibels = -8f;
+		[Tooltip("The default decibels when mute toggled off, if player hasn't toggled on mute yet")]
+		[Range(MinimumDecibels, MaximumDecibels)] [SerializeField]
+		private float defaultUnmuteDecibels = -8f;
 		private const float MinimumDecibels = -80f;
 		private const float MaximumDecibels = -0.05f;
 		public const float MinimumValue = 0.0001f;
@@ -55,7 +57,7 @@ namespace Mox
 		{
 			if (muteSound && MainAudioMixer.GetFloat(parameterName, out var decibels) && decibels > ToDecibels(MinimumValue))
 				PlayerPrefs.SetFloat($"{parameterName}_Default", decibels);
-			var defaultDecibels = PlayerPrefs.GetFloat($"{parameterName}_Default", DefaultDecibels);
+			var defaultDecibels = PlayerPrefs.GetFloat($"{parameterName}_Default", Instance.defaultUnmuteDecibels);
 
 			decibels = muteSound ? ToDecibels(MinimumValue) : defaultDecibels;
 			PlayerPrefs.SetFloat(parameterName, decibels);
