@@ -17,7 +17,7 @@ namespace Mox
 		private static AudioMixer MainAudioMixer => Instance.mixer;
 		public static System.Action<string> ParameterChanged;
 
-		private void Start()
+		protected override void Initialize()
 		{
 			foreach (var parameter in mixerParameters.Where(parameter => Load(mixer, parameter)))
 			{
