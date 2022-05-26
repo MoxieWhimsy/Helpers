@@ -62,14 +62,6 @@ namespace Mox
 			return Ready && MainAudioMixer.SetFloat(parameterName, decibels);
 		}
 		
-		[System.Obsolete]
-		private static bool GetParameterDecibels(string parameterName, out float decibels)
-		{
-			decibels = PlayerPrefs.GetFloat(parameterName, DefaultDecibels);
-			decibels = Mathf.Min(decibels, MaximumDecibels);
-			return true;
-		}
-
 		private static float GetDecibelsParameter(string parameterName)
 		{
 			var mixerSet = Instance.mixer.GetFloat(parameterName, out var decibels);
