@@ -11,6 +11,7 @@ namespace Mox
 		[SerializeField, Min(1f)] private float multiplier = 20f;
 		[SerializeField] private List<string> mixerParameters = new List<string>();
 		private const float DefaultDecibels = -8f;
+		private const float MinimumDecibels = -80f;
 		private const float MaximumDecibels = -0.05f;
 		public const float MinimumValue = 0.0001f;
 
@@ -34,7 +35,7 @@ namespace Mox
 				return true;
 			}
 
-			value = Ready ? ToVolume(DefaultDecibels) : MinimumValue;
+			value = MinimumValue;
 			return false;
 		}
 		
@@ -65,8 +66,8 @@ namespace Mox
 		private static float GetDecibelsParameter(string parameterName)
 		{
 			var mixerSet = Instance.mixer.GetFloat(parameterName, out var decibels);
-			decibels = PlayerPrefs.GetFloat(parameterName, mixerSet ? decibels : DefaultDecibels);
-			decibels = Mathf.Min(decibels, MaximumDecibels);
+			decibels = PlayerPrefs.GetFloat(parameterName, mixerSet ? decibels : MinimumDecibels);
+			decibels = Mathf.Clamp(decibels, MinimumDecibels, MaximumDecibels);
 			return decibels;
 		}
 
@@ -103,7 +104,7 @@ namespace Mox
 
 		private static float ToVolume(float decibels)
 		{
-			decibels = Mathf.Min(decibels, MaximumDecibels);
+			decibels = Mathf.Clamp(decibels, MinimumDecibels, MaximumDecibels);
 			return Mathf.Pow(10, decibels / Instance.multiplier);
 		}
 
