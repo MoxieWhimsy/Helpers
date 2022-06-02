@@ -48,6 +48,21 @@ namespace Mox
 			result = components.FirstOrDefault(c => names.Contains(c.name.ToLower()));
 			return result;
 		}
+		
+		public static bool FuzzyFindComponent<T>(this Component component, out T result, string name)
+			where T : UnityEngine.Component
+		{
+			if (component.FindComponent<T>(out result, name)) return true;
+	        
+			var components = component.GetComponentsInChildren<T>();
+			result = components.FirstOrDefault(c
+				=> c.name.StartsWith(name) || c.name.EndsWith(name) || 
+				   c.name.ToLower().StartsWith(name.ToLower()) ||
+				   c.name.ToLower().EndsWith(name.ToLower()));
+			if (!result) return false;
+			Log.Info(LogCat.Debug, $"{nameof(FuzzyFindComponent)}::actual name is {result.name}");
+			return true;
+		}
 
 		public static bool GetValidGameObject(this Component component, out GameObject gameObject, params string[] paths)
         {
