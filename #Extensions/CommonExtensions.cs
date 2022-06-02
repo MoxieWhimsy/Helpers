@@ -83,7 +83,7 @@ namespace Mox
 			=> gameObject && gameObject.TryGetComponent<T>(out _);
 
 		public static bool HasComponent<T>(this Component component) where T : Component
-			=> component.GetValidGameObject(out GameObject gob) && gob.HasComponent<T>();
+			=> component && component.TryGetComponent<T>(out _);
 
         public static float AsFloat(this int value) => value;
 
