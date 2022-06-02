@@ -88,15 +88,8 @@ namespace Mox
             return false;
         }
 
-        public static bool HasComponent<T>(this GameObject gameObject) where T : Component
-        {
-            if (gameObject == null || !gameObject.TryGetComponent<T>(out _))
-            {
-                return false;
-            }
-
-            return true;
-        }
+		public static bool HasComponent<T>(this GameObject gameObject) where T : Component
+			=> gameObject && gameObject.TryGetComponent<T>(out _);
 
 		public static bool HasComponent<T>(this Component component) where T : Component
 			=> component.GetValidGameObject(out GameObject gob) && gob.HasComponent<T>();
