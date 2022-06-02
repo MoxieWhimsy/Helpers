@@ -29,7 +29,7 @@ namespace Mox
             return default;
 		}
 
-        public static bool FindComponent<T>(this Component component, out T result, params string[] paths) where T : UnityEngine.Component
+		public static bool FindComponent<T>(this Component component, out T result, params string[] names) where T : UnityEngine.Component
 		{
 			if (component == null)
 			{
@@ -37,25 +37,16 @@ namespace Mox
 				return false;
 			}
 
-			if (paths.Length == 0)
+			if (names.Length == 0)
 			{
-				return component.TryGetComponent<T>(out result);
+				return component.TryGetComponent(out result);
 			}
 
-            Transform transform = component.transform;
+			names = names.Select(n => n.ToLower()).ToArray();
 
-			foreach (string path in paths)
-			{
-				var findTransform = transform.Find(path);
-				if (findTransform == null) continue;
-
-				if (findTransform.TryGetComponent<T>(out result))
-				{
-					return true;
-				}
-			}
-
-			return transform.TryGetComponent<T>(out result);
+			var components = component.GetComponentsInChildren<T>();
+			result = components.FirstOrDefault(c => names.Contains(c.name.ToLower()));
+			return result;
 		}
 
 		public static bool GetValidGameObject(this Component component, out GameObject gameObject, params string[] paths)
