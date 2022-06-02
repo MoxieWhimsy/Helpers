@@ -43,7 +43,7 @@ namespace Mox
 		
 		public static bool SetVolume(string parameterName, float volume)
 		{
-			volume = Mathf.Clamp(volume, 0, ToVolume(MaximumDecibels));
+			volume = Mathf.Clamp(volume, MinimumValue, ToVolume(MaximumDecibels));
 			var decibels = ToDecibels(volume);
 			PlayerPrefs.SetFloat(parameterName, decibels);
 			PlayerPrefs.Save();
