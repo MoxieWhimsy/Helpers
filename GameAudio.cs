@@ -22,6 +22,11 @@ namespace Mox
 
 		protected override void Initialize()
 		{
+			Invoke(nameof(LoadAllMixerDecibels), float.Epsilon);
+		}
+
+		private void LoadAllMixerDecibels()
+		{
 			foreach (var parameter in mixerParameters.Where(parameter => Load(mixer, parameter)))
 			{
 				ParameterChanged?.Invoke(parameter);
