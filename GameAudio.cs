@@ -33,7 +33,7 @@ namespace Mox
 			}
 		}
 		
-		internal static bool GetVolume(string parameterName, out float value)
+		public static bool GetVolume(string parameterName, out float value)
 		{
 			if (Ready)
 			{
