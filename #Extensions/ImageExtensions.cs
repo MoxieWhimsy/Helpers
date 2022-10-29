@@ -9,7 +9,7 @@ namespace Mox
 		{
             if (image.type != Image.Type.Tiled)
             {
-                Log.Warning(LogCat.UX, $"Image {image.name} is not tiled. ");
+                Debug.LogWarning($"UX: Image {image.name} is not tiled. ", image);
                 return;
             }
 

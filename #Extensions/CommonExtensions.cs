@@ -25,7 +25,7 @@ namespace Mox
             if (component.FindComponent(out T result))
                 return result;
 
-            Log.Warning(LogCat.Debug, $"{nameof(FindComponent)} did not find a component among {paths}");
+            Debug.LogWarning( $"Debug: {nameof(FindComponent)} did not find a component among {paths}", component);
             return default;
 		}
 
