@@ -1,63 +1,81 @@
 using System.Collections.Generic;
+#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
+#endif
 
 namespace Mox.Data
 {
 	[System.Serializable]
 	public class HeapPriorityQueue<T> : IPriorityQueue<T>
 	{
-		readonly List<HeapNode> nodes = new List<HeapNode>();
+		readonly List<HeapNode> _nodes = new List<HeapNode>();
 
 		public HeapPriorityQueue(bool withMaxHeap = true)
 		{
 			UsesMaxHeap = withMaxHeap;
 		}
 
-		[ShowInInspector] public bool UsesMaxHeap { get; private set; }
-
-		[ShowInInspector] private IEnumerable<HeapNode> Nodes => nodes;
-
+		#if ODIN_INSPECTOR
 		[ShowInInspector]
-		public int Count => nodes.Count;
+		#endif
+		public bool UsesMaxHeap { get; private set; }
 
+		#if ODIN_INSPECTOR
+		[ShowInInspector]
+		#endif
+		private IEnumerable<HeapNode> Nodes => _nodes;
+
+		#if ODIN_INSPECTOR
+		[ShowInInspector]
+		#endif
+		public int Count => _nodes.Count;
+
+		#if ODIN_INSPECTOR
 		[Button]
+		#endif
 		public bool Dequeue(out T item)
 		{
-			if (nodes.Count <= 0)
+			if (_nodes.Count <= 0)
 			{
 				item = default;
 				return false;
 			}
-			item = nodes[0].Value;
-			nodes[0] = nodes[Count - 1];
-			nodes.RemoveAt(Count - 1);
-			nodes.Heapify(Count, 0, UsesMaxHeap);
+			item = _nodes[0].Value;
+			_nodes[0] = _nodes[Count - 1];
+			_nodes.RemoveAt(Count - 1);
+			_nodes.Heapify(Count, 0, UsesMaxHeap);
 			return true;
 		}
 
+		#if ODIN_INSPECTOR
 		[Button]
+		#endif
 		public void Enqueue(T item, int priority)
 		{
-			nodes.Insert(0, new HeapNode(item, priority));
-			nodes.Heapify(Count, 0, UsesMaxHeap);
+			_nodes.Insert(0, new HeapNode(item, priority));
+			_nodes.Heapify(Count, 0, UsesMaxHeap);
 		}
 
-		class HeapNode : IHasPriority
+		private class HeapNode : IHasPriority
 		{
-			[LabelWidth(40), HorizontalGroup()] 
-			public readonly T Value;
+			#if ODIN_INSPECTOR
+			[LabelWidth(50), ShowInInspector, HorizontalGroup()]
+			#endif
+			public T Value { get; }
+			#if ODIN_INSPECTOR
 			[LabelWidth(50), ShowInInspector, HorizontalGroup()] 
+			#endif
 			public int Priority { get; }
 
 			public HeapNode(T value, int priority)
 			{
-				this.Value = value;
+				Value = value;
 				Priority = priority;
 			}
 
 			public override string ToString() => $"'{Value}' p{Priority}";
 		}
 
-		public override string ToString() => string.Join(", ", nodes);
+		public override string ToString() => string.Join(", ", _nodes);
 	}
 }
