@@ -10,6 +10,10 @@ namespace Mox
 		[SerializeField] private AudioMixer mixer;
 		[SerializeField, Min(1f)] private float multiplier = 20f;
 		[SerializeField] private List<string> mixerParameters = new List<string>();
+		[field: SerializeField] private bool UseMixerDefaults { get; set; }
+
+		[field: SerializeField, Range(MinimumDecibels, MaximumDecibels)]
+		private float DefaultDecibels { get; set; } = -8f;
 		[Tooltip("The default decibels when mute toggled off, if player hasn't toggled on mute yet")]
 		[Range(MinimumDecibels, MaximumDecibels)] [SerializeField]
 		private float defaultUnmuteDecibels = -8f;
@@ -72,10 +76,13 @@ namespace Mox
 		
 		private static float GetDecibelsParameter(string parameterName)
 		{
-			var mixerSet = Instance.mixer.GetFloat(parameterName, out var decibels);
-			decibels = PlayerPrefs.GetFloat(parameterName, mixerSet ? decibels : MinimumDecibels);
-			decibels = Mathf.Clamp(decibels, MinimumDecibels, MaximumDecibels);
-			return decibels;
+			if (PlayerPrefs.HasKey(parameterName))
+				return Mathf.Clamp(PlayerPrefs.GetFloat(parameterName), MinimumDecibels, MaximumDecibels);
+			
+			var defaultDecibels = Ready ? Instance.DefaultDecibels : MinimumDecibels;
+			if (Ready && MainAudioMixer && Instance.UseMixerDefaults)
+				MainAudioMixer.GetFloat(parameterName, out defaultDecibels);
+			return Mathf.Clamp(defaultDecibels, MinimumDecibels, MaximumDecibels);
 		}
 
 		#if UNITY_EDITOR
